@@ -38,7 +38,11 @@ Ubuntu VM Setup:
 Run an HTTP server hosting index.html on the Ubuntu VM.
 
 File Descriptions:
+
 Pi-main.py: Main script for Raspberry Pi 4.
+
 ESP-main.py: Main script for ESP32.
+
 local-server-script.sh: Script for the local server.
+
 index.html: HTML file for displaying results on the Ubuntu VM.
