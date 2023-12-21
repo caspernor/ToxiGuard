@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ToxiGuard Patient Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #3498db;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .information-box {
+            background-color: #f2f2f2;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .level-list {
+            list-style-type: none;
+            padding: 0;
+            text-align: center; /* Center the level readings */
+            margin-top: 10px;
+        }
+
+        .level-item {
+            margin-bottom: 5px;
+        }
+
+        .patient-box-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .patient-box {
+            width: 300px;
+            border: 1px solid #ccc;
+            margin: 10px;
+            padding: 10px;
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+
+        .patient-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .patient-image {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>ToxiGuard Patient Data</h1>
+    </div>
+
+    <div class="information-box">
+        Doctor Information: Value meanings
+        <ul class="level-list">
+            <li class="level-item">100-400: No Alcohol Detected</li>
+            <li class="level-item">400-800: Low Alcohol Levels Detected</li>
+            <li class="level-item">800-1400: Moderate Alcohol Levels Detected</li>
+            <li class="level-item">1400-2000: Significant Alcohol Levels Detected</li>
+            <li class="level-item">2000-3000: High Alcohol Levels Detected</li>
+            <li class="level-item">3000-4095: Very High Alcohol Levels Detected</li>
+        </ul>
+    </div>
+
+    <div class="patient-box-container" id="patient-container"></div>
+
+    <script>
+        async function displayPatients() {
+            const container = document.getElementById("patient-container");
+
+            for (let i = 1; i <= 10; i++) {
+                try {
+                    const response = await fetch(`patient_data${i}.csv`);
+                    const data = await response.text();
+
+                    const rows = data.split('\n');
+                    const patientName = `Patient ${i}`;
+
+                    if (rows.length >= 2) {
+                        const patientDataRow = rows[1].split(',');
+
+                        const startTimestamp = patientDataRow[0];
+                        const minValue = patientDataRow[2];
+                        const maxValue = patientDataRow[3];
+                        const avgValue = patientDataRow[4];
+
+                        const patientBox = document.createElement("div");
+                        patientBox.className = "patient-box";
+
+                        const patientTitle = document.createElement("div");
+                        patientTitle.className = "patient-title";
+                        patientTitle.textContent = patientName;
+                        patientBox.appendChild(patientTitle);
+
+                        const patientData = document.createElement("div");
+                        patientData.innerHTML = `Time of Test: ${startTimestamp}<br>Min Value: ${minValue}<br>Max Value: ${maxValue}<br>Average Value: ${avgValue}`;
+                        patientBox.appendChild(patientData);
+
+                        const patientImage = document.createElement("img");
+                        patientImage.className = "patient-image";
+                        patientImage.src = `patient_image${i}.jpg`;
+                        patientBox.appendChild(patientImage);
+
+                        container.appendChild(patientBox);
+                    }
+                } catch (error) {
+                    console.error(`Error loading data for Patient ${i}: ${error.message}`);
+                }
+            }
+        }
+
+        displayPatients();
+
+        setInterval(() => {
+            document.getElementById("patient-container").innerHTML = "";
+            displayPatients();
+        }, 6000); // Refresh every 6 seconds
+    </script>
+</body>
+</html>
