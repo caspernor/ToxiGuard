@@ -1,6 +1,6 @@
 ToxiGuard
 
-Project Overview:
+**Project Overview:**
 
 This GitHub repository contains the code and scripts for a breath analyzer device that involves an ESP32 microcontroller, two Raspberry Pi 4's, one inside the device and another acting as a local server, and lastly a Ubuntu VM that collects, processes, and displays the sensor readings.
 
@@ -17,7 +17,8 @@ The local server, hosted on another Raspberry Pi 4, executes the local-server-sc
 4. Ubuntu VM (index.html):
 The Ubuntu VM runs an index.html file, which displays the CSV data and the image on a website. This website serves as a platform for doctors to access and analyze the test results.
 
-Usage:
+
+**Usage:**
 
 ESP32 Setup:
 
@@ -37,7 +38,8 @@ Ubuntu VM Setup:
 
 Run an HTTP server hosting index.html on the Ubuntu VM.
 
-File Descriptions:
+
+**File Descriptions:**
 
 Pi-main.py: Main script for Raspberry Pi 4.
 
